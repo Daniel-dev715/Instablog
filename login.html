@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instablog - Login</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Instablog</h1>
+            <p>Connect with friends and the world around you</p>
+            <div class="demo-credentials">
+                <p><strong>🔒 Demo Credentials:</strong></p>
+                <p>
+                    <strong>Email:</strong> demo@instablog.com<br>
+                    <strong>Password:</strong> demo123
+                </p>
+            </div>
+        </div>
+
+        <div class="auth-body">
+            <div class="form-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email or Username</label>
+                    <div class="input-group">
+                        <i class="uil uil-envelope"></i>
+                        <input type="text" id="login-email" placeholder="Enter your email or username" required>
+                    </div>
+                    <span class="error-message" id="login-email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-group">
+                        <i class="uil uil-lock"></i>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    <span class="error-message" id="login-password-error"></span>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">Login</button>
+
+                <div class="divider">OR</div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn" id="google-login">
+                        <i class="uil uil-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn" id="facebook-login">
+                        <i class="uil uil-facebook"></i>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="register-form">
+                <div class="form-group">
+                    <label for="register-fullname">Full Name</label>
+                    <div class="input-group">
+                        <i class="uil uil-user"></i>
+                        <input type="text" id="register-fullname" placeholder="Enter your full name" required>
+                    </div>
+                    <span class="error-message" id="register-fullname-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <div class="input-group">
+                        <i class="uil uil-envelope"></i>
+                        <input type="email" id="register-email" placeholder="Enter your email" required>
+                    </div>
+                    <span class="error-message" id="register-email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <div class="input-group">
+                        <i class="uil uil-at"></i>
+                        <input type="text" id="register-username" placeholder="Choose a username" required>
+                    </div>
+                    <span class="error-message" id="register-username-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <div class="input-group">
+                        <i class="uil uil-lock"></i>
+                        <input type="password" id="register-password" placeholder="Create a password" required>
+                    </div>
+                    <span class="error-message" id="register-password-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="uil uil-lock"></i>
+                        <input type="password" id="register-confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                    <span class="error-message" id="register-confirm-error"></span>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Account</button>
+
+                <div class="divider">OR</div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn" id="google-register">
+                        <i class="uil uil-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn" id="facebook-register">
+                        <i class="uil uil-facebook"></i>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="custom-notification" id="notification"></div>
+
+    <script src="./index.js"></script>
+</body>
+</html>

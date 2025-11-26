@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instablog Social</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <h2 class="log">
+                Instablog
+            </h2>
+            <div class="search-bar">
+                <i class="uil uil-search"></i>
+                <input type="search" id="global-search" placeholder="Search posts, people, hashtags...">
+                <div class="search-results" id="search-results"></div>
+            </div>
+            <div class="create">
+                <label class="btn btn-primary" for="Create-post">Create</label>
+                <div class="profile-photo">
+                    <img src="./img/mine.jpg">
+                </div>
+            </div>
+
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="left"> <!--This is the left section of the main webpage-->
+                <a class="profile">
+                    <div class="profile-photo">
+                        <img src="./img/mine.jpg">
+                    </div>
+                    <div class="handle">
+                        <h4>Danny Styles</h4>
+                        <p class="text-muted">
+                            @DannyS
+                        </p>
+                    </div>
+                </a>
+
+
+                <!--SIDEBAR-->
+
+                <div class="sidebar">
+                    <a class="menu-item active">
+                        <span><i class="uil uil-home"></i></span>
+                        <h3>Home</h3>
+                    </a>
+                    <a class="menu-item">
+                        <span><i class="uil uil-compass"></i></span>
+                        <h3>Explore</h3>
+                    </a>
+                    <a class="menu-item" id="notifications">
+                        <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span>
+                        <h3>Notifications</h3>
+                        <!--Notification Pop-Up-->
+                        <div class="notifications-popup">
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/2.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>Lady B</b> accepted your friend request
+                                    <small class="text-muted">2 days ago</small>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/3.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>XOXO</b> accepted your friend request
+                                    <small class="text-muted">30 mins ago</small>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/4.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>Shira</b> commented on your post
+                                    <small class="text-muted">1 hours ago</small>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/5.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>Bethany</b> liked your story
+                                    <small class="text-muted">45mins ago</small>
+                                </div>
+                            </div>
+
+
+
+
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/6.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>Grayson</b> made a friend request
+                                    <small class="text-muted">2 weeks ago</small>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="profile-photo">
+                                    <img src="./img/7.jpeg">
+                                </div>
+                                <div class="notification-body">
+                                    <b>Shawn</b> and <b>283 others</b> reacted to your story
+                                    <small class="text-muted">19hrs ago</small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <a class="menu-item" id="messages-notification">
+                            <span><i class="uil uil-chat"><small class="notification-count">6</small></i></span>
+                            <h3>Messages</h3>
+                        </a>
+                        <a class="menu-item">
+                            <span><i class="uil uil-bookmark"></i></span>
+                            <h3>Bookmarks</h3>
+                        </a>
+                        <a class="menu-item">
+                            <span><i class="uil uil-analysis"></i></span>
+                            <h3>Analytics</h3>
+                        </a>
+                        <a class="menu-item" id="theme">
+                            <span><i class="uil uil-palette"></i></span>
+                            <h3>Theme</h3>
+                        </a>
+                        <a class="menu-item">
+                            <span><i class="uil uil-setting"></i></span>
+                            <h3>Settings</h3>
+                        </a>
+                        <a class="menu-item" id="logout-btn">
+                            <span><i class="uil uil-sign-out-alt"></i></span>
+                            <h3>Log Out</h3>
+                        </a>
+                        <label for="Create-post" class="btn btn-primary">Create Post</label>
+                </div>
+            </div>
+            <!-----------------END OF LEFT SCTION-------------->
+
+            <div class="middle"> <!--This is the middle section of the main webpage-->
+                <!-------------STORIES------>
+                <div class="stories">
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/mine.jpg">
+                        </div>
+                        <p class="name">Your Story</p>
+                    </div>
+
+
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/9.jpeg">
+                        </div>
+                        <p class="name">Spellz Coal</p>
+                    </div>
+
+
+
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/10.jpeg">
+                        </div>
+                        <p class="name">Young G</p>
+                    </div>
+
+
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/13.jpeg">
+                        </div>
+                        <p class="name">Damian Vado</p>
+                    </div>
+
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/14.jpeg">
+                        </div>
+                        <p class="name">Timmy Terner</p>
+                    </div>
+
+
+                    <div class="story">
+                        <div class="profile-photo">
+                            <img src="./img/12.jpeg">
+                        </div>
+                        <p class="name">Ama Blonde</p>
+                    </div>
+
+                </div>
+                <form class="create-post">
+                    <div class="profile-photo">
+                        <img src="./img/mine.jpg">
+                    </div>
+                    <div class="input-area">
+                        <input type="text" placeholder="What's on your mind, Danny?" id="create-post" required>
+                        <label for="post-photo-upload" class="btn btn-primary"
+                            style="padding: 0.4rem 1rem; margin-left: 5px;">
+                            <i class="uil uil-camera"></i>
+                        </label>
+                        <input type="file" id="post-photo-upload" accept="image/*,video/*" style="display: none;">
+                        <label for="post-video-upload" class="btn btn-primary"
+                            style="padding: 0.4rem 1rem; margin-left: 5px;">
+                            <i class="uil uil-video"></i>
+                        </label>
+                        <input type="file" id="post-video-upload" accept="video/*" style="display: none;">
+                    </div>
+                    <input type="submit" value="Post" class="btn btn-primary">
+                </form>
+                <!-----------------------------------FEEDS--------------------------------->
+                <div class="feeds">
+                    <!-----------------------------------FEED 1--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/13.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Damian Vado</h3>
+                                    <small>Dubai, 15 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_1.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/10.jpeg"></span>
+                            <span><img src="./img/4.jpeg"></span>
+                            <span><img src="./img/15.jpeg"></span>
+                            <p>Liked by <b>Damian Vado</b> and <b>1,323 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Damian Vado</b> Living the family life <span class="harsh-tag">#VivaLaVidaSzn#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 120 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 1--------------------->
+
+                    <!-----------------------------------FEED 2--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/14.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Timmy Terner</h3>
+                                    <small>Johannesburg, 30 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_2.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/3.jpeg"></span>
+                            <span><img src="./img/6.jpeg"></span>
+                            <span><img src="./img/12.jpeg"></span>
+                            <p>Liked by <b>Young G</b> and <b>913 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Timmy Terner</b> NightLife of the town <span class="harsh-tag">#DettyParty#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 50 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 2--------------------->
+
+                    <!-----------------------------------FEED 3--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/16.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Kid Cray</h3>
+                                    <small>New York, 1 hour ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_3.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/2.jpeg"></span>
+                            <span><img src="./img/8.jpeg"></span>
+                            <span><img src="./img/17.jpeg"></span>
+                            <p>Liked by <b>Spellz Coal</b> and <b>2,423 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Kid Cray</b> Do you know what time it is? <span class="harsh-tag">#PaRtY#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 2,032 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 3--------------------->
+
+
+
+                    <!-----------------------------------FEED 4--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/17.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Poe Shurmeda</h3>
+                                    <small>Nairobi, 45 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_4.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/1.jpeg"></span>
+                            <span><img src="./img/9.jpeg"></span>
+                            <span><img src="./img/18.jpeg"></span>
+                            <p>Liked by <b>Damian Vado</b> and <b>3,543 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Poe Shurmeda</b> Guess who's the latest graduate? <span
+                                    class="harsh-tag">#Classof2025#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 1,000 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 4--------------------->
+
+
+
+                    <!-----------------------------------FEED 5--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/18.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Larry Jackson</h3>
+                                    <small>Monrovia, 3 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_5.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/4.jpeg"></span>
+                            <span><img src="./img/12.jpeg"></span>
+                            <span><img src="./img/20.jpeg"></span>
+                            <p>Liked by <b>Damian Vado</b> and <b>4,323 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Larry Jackson</b> Slam Dunk <span class="harsh-tag">#LoveBasketBall#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 220 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 5--------------------->
+
+
+
+
+                    <!-----------------------------------FEED 6--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/19.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Micheal Kotley</h3>
+                                    <small>Lome, 15 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_6.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/5.jpeg"></span>
+                            <span><img src="./img/10.jpeg"></span>
+                            <span><img src="./img/15.jpeg"></span>
+                            <p>Liked by <b>Young G</b> and <b>5,000 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Micheal Kotley</b> Big Sis is a graduate <span
+                                    class="harsh-tag">#Congratulations#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 4,000 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 6--------------------->
+
+
+
+
+                    <!-----------------------------------FEED 7--------------------------------->
+                    <div class="feed">
+                        <div class="head">
+                            <div class="user">
+                                <div class="profile-photo">
+                                    <img src="./img/20.jpeg">
+                                </div>
+                                <div class="logo">
+                                    <h3>Ben Dickson</h3>
+                                    <small>Dubai, 15 minutes ago</small>
+                                </div>
+                            </div>
+                            <span class="edit">
+                                <i class="uil uil-ellipsis-h"></i>
+                            </span>
+                        </div>
+
+                        <div class="photo">
+                            <img src="./img/feed_7.jpeg">
+                        </div>
+
+                        <div class="action-buttons">
+                            <div class="interaction-buttons">
+                                <span><i class="uil uil-thumbs-up"></i></span>
+                                <span><i class="uil uil-comment"></i></span>
+                                <span><i class="uil uil-share"></i></span>
+                            </div>
+                            <div class="bookmark">
+                                <span><i class="uil uil-bookmark"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="liked-by">
+                            <span><img src="./img/10.jpeg"></span>
+                            <span><img src="./img/4.jpeg"></span>
+                            <span><img src="./img/15.jpeg"></span>
+                            <p>Liked by <b>Micheal Kotley</b> and <b>923 others</b></p>
+                        </div>
+
+                        <div class="caption">
+                            <p><b>Ben Dickson</b> A lonely road to the top <span class="harsh-tag">#NewBeginning#</span>
+                            </p>
+                        </div>
+
+                        <div class="comments text-muted">View all 50 commments</div>
+                    </div>
+                    <!------------------------------END OF FEED 7--------------------->
+                </div>
+                <!--------------------------------------END OF FEEDS----------------------->
+            </div>
+            <!----------------------------------------END OF MIDDLE------------------------>
+
+            <div class="right"> <!--This is the right section of the main webpage-->
+                <div class="messages">
+                    <div class="heading">
+                        <h4>Messages</h4><i class="uil uil-edit"></i>
+                    </div>
+
+                    <!--------------SEARCH BAR--------------->
+                    <div class="search-bar">
+                        <i class="uil uil-search"></i>
+                        <input type="search" placeholder="Search messages" id="message-search">
+                    </div>
+
+                    <!--------------MESSAGES CATEGORY--------------->
+                    <div class="category">
+                        <h6 class="active">Primary</h6>
+                        <h6>General</h6>
+                        <h6 class="message-requests">Requests(7)</h6>
+                    </div>
+
+                    <!-----------------MESSAGE-------------------->
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/17.jpeg">
+                        </div>
+                        <div class="message-body">
+                            <h5>Tobi Styles</h5>
+                            <p class="text-muted">How you doing today bro?</p>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/16.jpeg">
+                            <div class="active"></div>
+                        </div>
+                        <div class="message-body">
+                            <h5>YKB boy</h5>
+                            <p class="text-bold">2 new messages</p>
+                        </div>
+                    </div>
+
+
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/15.jpeg">
+                        </div>
+                        <div class="message-body">
+                            <h5>Ama Darko</h5>
+                            <p class="text-muted">Lol you funny</p>
+                        </div>
+                    </div>
+
+
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/14.jpeg">
+                            <div class="active"></div>
+                        </div>
+                        <div class="message-body">
+                            <h5>Timmy Terner</h5>
+                            <p class="text-muted">Have you seen the pics yet?</p>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/13.jpeg">
+                        </div>
+                        <div class="message-body">
+                            <h5>Damian Vado</h5>
+                            <p class="text-muted">What's the latest game mehn?</p>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="profile-photo">
+                            <img src="./img/12.jpeg">
+                        </div>
+                        <div class="message-body">
+                            <h5>Ama Blonde</h5>
+                            <p class="text-bold">4 new messages</p>
+                        </div>
+                    </div>
+                </div>
+                <!----------------------------END OF MESSAGES--------------------->
+
+                <!--------------------------------REQUESTS----------------------->
+                <div class="friend-requests">
+                    <h4>Requests</h4>
+                    <div class="request">
+                        <div class="info">
+                            <div class="profile-photo">
+                                <img src="./img/6.jpeg">
+                            </div>
+                            <div>
+                                <h5>William Szobo</h5>
+                                <p class="text-muted">
+                                    8 mutual friends
+                                </p>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <button class="btn btn-primary">
+                                Accept
+                            </button>
+                            <button class="btn">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="request">
+                        <div class="info">
+                            <div class="profile-photo">
+                                <img src="./img/8.jpeg">
+                            </div>
+                            <div>
+                                <h5>Bel Phina</h5>
+                                <p class="text-muted">
+                                    8 mutual friends
+                                </p>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <button class="btn btn-primary">
+                                Accept
+                            </button>
+                            <button class="btn">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="request">
+                        <div class="info">
+                            <div class="profile-photo">
+                                <img src="./img/10.jpeg">
+                            </div>
+                            <div>
+                                <h5>Larry Z</h5>
+                                <p class="text-muted">
+                                    8 mutual friends
+                                </p>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <button class="btn btn-primary">
+                                Accept
+                            </button>
+                            <button class="btn">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="request">
+                        <div class="info">
+                            <div class="profile-photo">
+                                <img src="./img/2.jpeg">
+                            </div>
+                            <div>
+                                <h5>Cherry Patton</h5>
+                                <p class="text-muted">
+                                    8 mutual friends
+                                </p>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <button class="btn btn-primary">
+                                Accept
+                            </button>
+                            <button class="btn">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-----------------------------------THEME CUSTOMIZATION---------------------------------------------->
+    <div class="customize-theme">
+        <div class="card">
+            <h2>Customize your view</h2>
+            <p class="text-muted">Manage your font size, background and color</p>
+
+            <!-------------------FONT SIZES--------------->
+            <div class="font-size">
+                <h4>Font Size</h4>
+                <div>
+                    <h6>Aa</h6>
+                    <div class="choose-size">
+                        <span class="font-size-1"></span>
+                        <span class="font-size-2 active"></span>
+                        <span class="font-size-3"></span>
+                        <span class="font-size-4"></span>
+                        <span class="font-size-5"></span>
+                    </div>
+                    <h3>Aa</h3>
+                </div>
+            </div>
+
+            <!-------------------PRIMARY COLORS---------------->
+            <div class="color">
+                <h4>Color</h4>
+                <div class="choose-color">
+                    <span class="color-1 active"></span>
+                    <span class="color-2"></span>
+                    <span class="color-3"></span>
+                    <span class="color-4"></span>
+                    <span class="color-5"></span>
+                </div>
+            </div>
+
+            <!------------------BACKGROUND COLORS-------------------------->
+            <div class="background">
+                <h4>Background</h4>
+                <div class="choose-bg">
+                    <div class="bg-1 active">
+                        <span></span>
+                        <h5 for="bg-1">Light</h5>
+                    </div>
+                    <div class="bg-2">
+                        <span></span>
+                        <h5>Dim</h5>
+                    </div>
+                    <div class="bg-3">
+                        <span></span>
+                        <h for="bg-3">Lights Out</h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-----------------------------------SETTINGS MODAL---------------------------------------------->
+    <div class="settings-modal">
+        <div class="card">
+            <h2>Settings</h2>
+            <p class="text-muted">Manage your account settings and preferences</p>
+
+            <!-- Settings Navigation -->
+            <div class="settings-navigation">
+                <button class="settings-nav-btn active" data-section="profile">
+                    <i class="uil uil-user"></i> Profile
+                </button>
+                <button class="settings-nav-btn" data-section="account">
+                    <i class="uil uil-setting"></i> Account
+                </button>
+                <button class="settings-nav-btn" data-section="privacy">
+                    <i class="uil uil-lock"></i> Privacy
+                </button>
+                <button class="settings-nav-btn" data-section="notifications">
+                    <i class="uil uil-bell"></i> Notifications
+                </button>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="settings-section-content active" id="profile-settings">
+                <div class="settings-item">
+                    <h4>Profile Photo</h4>
+                    <p>Update your profile picture</p>
+                    <div class="profile-upload-section">
+                        <div class="settings-profile-photo">
+                            <img src="./img/mine.jpg" id="settings-profile-preview">
+                        </div>
+                        <div>
+                            <input type="file" id="settings-photo-input" accept="image/*" style="display: none;">
+                            <button class="btn btn-primary"
+                                onclick="document.getElementById('settings-photo-input').click()">
+                                Upload Photo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Full Name</h4>
+                    <p>Your display name on Instablog</p>
+                    <div class="settings-control">
+                        <input type="text" id="settings-fullname" placeholder="Enter your full name">
+                        <button class="btn btn-primary" id="save-profile-name">Save</button>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Username</h4>
+                    <p>Your unique identifier</p>
+                    <div class="settings-control">
+                        <input type="text" id="settings-username" placeholder="@username">
+                        <button class="btn btn-primary" id="save-profile-username">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="settings-section-content" id="account-settings">
+                <div class="settings-item">
+                    <h4>Email Address</h4>
+                    <p>Your email for login and notifications</p>
+                    <div class="settings-control">
+                        <input type="email" id="settings-email" placeholder="email@example.com">
+                        <button class="btn btn-primary" id="save-account-email">Save</button>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Change Password</h4>
+                    <p>Update your password for security</p>
+                    <div class="settings-control" style="flex-direction: column; align-items: stretch;">
+                        <input type="password" id="settings-new-password" placeholder="New password"
+                            style="margin-bottom: 0.5rem;">
+                        <input type="password" id="settings-confirm-password" placeholder="Confirm password"
+                            style="margin-bottom: 0.5rem;">
+                        <button class="btn btn-primary" id="change-password-btn">Change Password</button>
+                    </div>
+                </div>
+
+                <div class="settings-item danger-zone">
+                    <h4>Delete Account</h4>
+                    <p>Permanently delete your account and all data</p>
+                    <button class="btn btn-danger" id="delete-account-btn">Delete Account</button>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="settings-section-content" id="privacy-settings">
+                <div class="settings-item">
+                    <h4>Private Account</h4>
+                    <p>Only approved followers can see your posts</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle" id="private-account-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Show Online Status</h4>
+                    <p>Let others see when you're active</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="online-status-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Allow Tags</h4>
+                    <p>Let others tag you in posts</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="allow-tags-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Activity Status</h4>
+                    <p>Show when you were last active</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="activity-status-toggle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-section-content" id="notifications-settings">
+                <div class="settings-item">
+                    <h4>Push Notifications</h4>
+                    <p>Receive notifications on your device</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="push-notifications-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Email Notifications</h4>
+                    <p>Receive updates via email</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="email-notifications-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Likes & Comments</h4>
+                    <p>Get notified about interactions</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="likes-comments-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>New Followers</h4>
+                    <p>Get notified about new followers</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="new-followers-toggle"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Messages</h4>
+                    <p>Get notified about new messages</p>
+                    <div class="settings-control">
+                        <div class="settings-toggle active" id="messages-notifications-toggle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
