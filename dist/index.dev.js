@@ -358,8 +358,28 @@ function loadDataFromStorage() {
 }
 
 function saveDataToStorage() {
-  localStorage.setItem('instablogPosts', JSON.stringify(postsData));
-  localStorage.setItem('friendRequests', JSON.stringify(friendRequests));
+  try {
+    localStorage.setItem('instablogPosts', JSON.stringify(postsData));
+    localStorage.setItem('friendRequests', JSON.stringify(friendRequests));
+  } catch (error) {
+    if (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+      console.error('LocalStorage quota exceeded:', error);
+      showNotification('Storage is full. Please clear some posts or try a smaller file.', 'error'); // Remove oldest posts to make space
+
+      if (postsData.length > 1) {
+        postsData.pop();
+
+        try {
+          localStorage.setItem('instablogPosts', JSON.stringify(postsData));
+          showNotification('Removed oldest post to make space', 'success');
+        } catch (e) {
+          console.error('Still unable to save:', e);
+        }
+      }
+    } else {
+      console.error('Error saving to localStorage:', error);
+    }
+  }
 }
 
 function showNotification(message) {
@@ -626,22 +646,39 @@ function initMainApp() {
     createPostForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var postText = createPostInput.value.trim();
-      var fileInput = document.getElementById('post-photo-upload');
-      var file = fileInput ? fileInput.files[0] : null;
+      var photoInput = document.getElementById('post-photo-upload');
+      var videoInput = document.getElementById('post-video-upload');
+      var audioInput = document.getElementById('post-audio-upload');
+      var photoFile = photoInput ? photoInput.files[0] : null;
+      var videoFile = videoInput ? videoInput.files[0] : null;
+      var audioFile = audioInput ? audioInput.files[0] : null;
 
-      if (!postText && !file) {
-        showNotification('Please write something or add a photo!', 'error');
+      if (!postText && !photoFile && !videoFile && !audioFile) {
+        showNotification('Please write something or add photo/video/audio!', 'error');
+        return;
+      } // Check file sizes
+
+
+      if (videoFile && videoFile.size > 50 * 1024 * 1024) {
+        showNotification('Video file is too large (max 50MB). Try a smaller file.', 'error');
         return;
       }
 
-      var savePost = function savePost(imgUrl) {
+      if (audioFile && audioFile.size > 20 * 1024 * 1024) {
+        showNotification('Audio file is too large (max 20MB). Try a smaller file.', 'error');
+        return;
+      }
+
+      var savePost = function savePost(mediaUrl) {
+        var mediaType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'image';
         var newPost = {
           id: Date.now(),
           username: currentUser.name,
           location: "Just Now",
           time: "Just now",
           profileImg: currentUser.profileImg,
-          postImg: imgUrl || "",
+          postImg: mediaUrl || "",
+          mediaType: mediaType,
           caption: postText,
           hashtags: "",
           likes: 0,
@@ -654,21 +691,97 @@ function initMainApp() {
         saveDataToStorage();
         renderPosts();
         createPostInput.value = '';
-        if (fileInput) fileInput.value = '';
+        if (photoInput) photoInput.value = '';
+        if (videoInput) videoInput.value = '';
+        if (audioInput) audioInput.value = '';
         showNotification('Post created successfully!');
-      };
+      }; // Handle photo upload
 
-      if (file) {
+
+      if (photoFile) {
+        if (photoFile.size > 10 * 1024 * 1024) {
+          showNotification('Photo is too large (max 10MB)', 'error');
+          return;
+        }
+
         var reader = new FileReader();
 
         reader.onload = function (e) {
-          savePost(e.target.result);
+          savePost(e.target.result, 'image');
         };
 
-        reader.readAsDataURL(file);
-      } else {
-        savePost("./img/feed_1.jpeg");
-      }
+        reader.onerror = function () {
+          showNotification('Error uploading photo', 'error');
+        };
+
+        reader.readAsDataURL(photoFile);
+      } // Handle video upload
+      else if (videoFile) {
+          var _reader = new FileReader();
+
+          console.log('Video file selected:', {
+            name: videoFile.name,
+            size: videoFile.size,
+            type: videoFile.type
+          });
+
+          _reader.onload = function (e) {
+            console.log('Video loaded successfully');
+            savePost(e.target.result, 'video');
+          };
+
+          _reader.onerror = function (error) {
+            console.error('Error reading video:', error);
+            showNotification('Error uploading video. File may be too large.', 'error');
+          };
+
+          _reader.readAsDataURL(videoFile);
+        } // Handle audio upload
+        else if (audioFile) {
+            if (audioFile.size > 20 * 1024 * 1024) {
+              showNotification('Audio file is too large (max 20MB)', 'error');
+              return;
+            }
+
+            var _reader2 = new FileReader();
+
+            console.log('Audio file selected:', {
+              name: audioFile.name,
+              size: audioFile.size,
+              type: audioFile.type
+            });
+
+            _reader2.onload = function (e) {
+              try {
+                console.log('Audio loaded successfully, size:', e.target.result.length); // Check if we're about to exceed storage limit
+
+                var currentStorage = localStorage.getItem('instablogPosts') ? localStorage.getItem('instablogPosts').length : 0;
+                var audioDataSize = e.target.result.length;
+                console.log('Current storage:', currentStorage, 'Audio data size:', audioDataSize);
+
+                if (currentStorage + audioDataSize > 9 * 1024 * 1024) {
+                  showNotification('Storage limit reached. Try a smaller audio file.', 'error');
+                  console.error('Storage limit would be exceeded');
+                  return;
+                }
+
+                savePost(e.target.result, 'audio');
+              } catch (err) {
+                console.error('Error processing audio:', err);
+                showNotification('Error processing audio file', 'error');
+              }
+            };
+
+            _reader2.onerror = function (error) {
+              console.error('Error reading audio:', error);
+              showNotification('Error uploading audio. File may be too large.', 'error');
+            };
+
+            _reader2.readAsDataURL(audioFile);
+          } // Default fallback
+          else {
+              savePost("./img/feed_1.jpeg", 'image');
+            }
     });
   } // Logout
 
@@ -689,7 +802,20 @@ function initMainApp() {
 
 
 function createPostHTML(post) {
-  return "\n        <div class=\"feed\" data-post-id=\"".concat(post.id, "\">\n            <div class=\"head\">\n                <div class=\"user\">\n                    <div class=\"profile-photo\">\n                        <img src=\"").concat(post.profileImg, "\">\n                    </div>\n                    <div class=\"logo\">\n                        <h3>").concat(post.username, "</h3>\n                        <small>").concat(post.location, ", ").concat(post.time, "</small>\n                    </div>\n                </div>\n                <span class=\"edit\">\n                    <i class=\"uil uil-ellipsis-h\"></i>\n                </span>\n            </div>\n\n            <div class=\"photo\">\n                <img src=\"").concat(post.postImg, "\">\n            </div>\n\n            <div class=\"action-buttons\">\n                <div class=\"interaction-buttons\">\n                    <span class=\"like-btn ").concat(post.isLiked ? 'liked' : '', "\">\n                        <i class=\"uil uil-thumbs-up\"></i>\n                    </span>\n                    <span class=\"comment-btn\"><i class=\"uil uil-comment\"></i></span>\n                    <span class=\"share-btn\"><i class=\"uil uil-share\"></i></span>\n                </div>\n                <div class=\"bookmark\">\n                    <span class=\"bookmark-btn ").concat(post.isBookmarked ? 'bookmarked' : '', "\">\n                        <i class=\"uil uil-bookmark\"></i>\n                    </span>\n                </div>\n            </div>\n\n            <div class=\"liked-by\">\n                ").concat(post.likedBy.map(function (img) {
+  // Ensure mediaType is set (default to 'image' for backwards compatibility)
+  var mediaType = post.mediaType || 'image'; // Render media based on type
+
+  var mediaHTML = '';
+
+  if (mediaType === 'video') {
+    mediaHTML = "<video width=\"100%\" height=\"auto\" controls style=\"border-radius: var(--card-border-radius); object-fit: cover; background: #000;\">\n                        <source src=\"".concat(post.postImg, "\" type=\"video/mp4\">\n                        <source src=\"").concat(post.postImg, "\" type=\"video/webm\">\n                        <source src=\"").concat(post.postImg, "\" type=\"video/ogg\">\n                        Your browser does not support the video tag.\n                    </video>");
+  } else if (mediaType === 'audio') {
+    mediaHTML = "<div style=\"background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); border-radius: var(--card-border-radius); padding: 3rem 1rem; text-align: center;\">\n                        <i class=\"uil uil-music\" style=\"font-size: 3rem; color: white; margin-bottom: 1rem;\"></i>\n                        <audio width=\"100%\" controls style=\"margin-top: 1rem; width: 100%;\">\n                            <source src=\"".concat(post.postImg, "\" type=\"audio/mpeg\">\n                            <source src=\"").concat(post.postImg, "\" type=\"audio/ogg\">\n                            <source src=\"").concat(post.postImg, "\" type=\"audio/wav\">\n                            Your browser does not support the audio tag.\n                        </audio>\n                    </div>");
+  } else {
+    mediaHTML = "<img src=\"".concat(post.postImg, "\" style=\"width: 100%; border-radius: var(--card-border-radius);\">");
+  }
+
+  return "\n        <div class=\"feed\" data-post-id=\"".concat(post.id, "\">\n            <div class=\"head\">\n                <div class=\"user\">\n                    <div class=\"profile-photo\">\n                        <img src=\"").concat(post.profileImg, "\">\n                    </div>\n                    <div class=\"logo\">\n                        <h3>").concat(post.username, "</h3>\n                        <small>").concat(post.location, ", ").concat(post.time, "</small>\n                    </div>\n                </div>\n                <span class=\"edit\">\n                    <i class=\"uil uil-ellipsis-h\"></i>\n                </span>\n            </div>\n\n            <div class=\"photo\">\n                ").concat(mediaHTML, "\n            </div>\n\n            <div class=\"action-buttons\">\n                <div class=\"interaction-buttons\">\n                    <span class=\"like-btn ").concat(post.isLiked ? 'liked' : '', "\">\n                        <i class=\"uil uil-thumbs-up\"></i>\n                    </span>\n                    <span class=\"comment-btn\"><i class=\"uil uil-comment\"></i></span>\n                    <span class=\"share-btn\"><i class=\"uil uil-share\"></i></span>\n                </div>\n                <div class=\"bookmark\">\n                    <span class=\"bookmark-btn ").concat(post.isBookmarked ? 'bookmarked' : '', "\">\n                        <i class=\"uil uil-bookmark\"></i>\n                    </span>\n                </div>\n            </div>\n\n            <div class=\"liked-by\">\n                ").concat(post.likedBy.map(function (img) {
     return "<span><img src=\"".concat(img, "\"></span>");
   }).join(''), "\n                <p>Liked by <b>").concat(post.username, "</b> and <b>").concat(post.likes.toLocaleString(), " others</b></p>\n            </div>\n\n            <div class=\"caption\">\n                <p><b>").concat(post.username, "</b> ").concat(post.caption, " <span class=\"harsh-tag\">").concat(post.hashtags, "</span></p>\n            </div>\n\n            <div class=\"comments text-muted\">View all ").concat(post.comments, " comments</div>\n        </div>\n    ");
 }

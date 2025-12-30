@@ -346,8 +346,28 @@ function loadDataFromStorage() {
 }
 
 function saveDataToStorage() {
-    localStorage.setItem('instablogPosts', JSON.stringify(postsData));
-    localStorage.setItem('friendRequests', JSON.stringify(friendRequests));
+    try {
+        localStorage.setItem('instablogPosts', JSON.stringify(postsData));
+        localStorage.setItem('friendRequests', JSON.stringify(friendRequests));
+    } catch (error) {
+        if (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+            console.error('LocalStorage quota exceeded:', error);
+            showNotification('Storage is full. Please clear some posts or try a smaller file.', 'error');
+            
+            // Remove oldest posts to make space
+            if (postsData.length > 1) {
+                postsData.pop();
+                try {
+                    localStorage.setItem('instablogPosts', JSON.stringify(postsData));
+                    showNotification('Removed oldest post to make space', 'success');
+                } catch (e) {
+                    console.error('Still unable to save:', e);
+                }
+            }
+        } else {
+            console.error('Error saving to localStorage:', error);
+        }
+    }
 }
 
 function showNotification(message, type = 'success') {
@@ -622,22 +642,38 @@ function initMainApp() {
             e.preventDefault();
             
             const postText = createPostInput.value.trim();
-            const fileInput = document.getElementById('post-photo-upload');
-            const file = fileInput ? fileInput.files[0] : null;
+            const photoInput = document.getElementById('post-photo-upload');
+            const videoInput = document.getElementById('post-video-upload');
+            const audioInput = document.getElementById('post-audio-upload');
+            const photoFile = photoInput ? photoInput.files[0] : null;
+            const videoFile = videoInput ? videoInput.files[0] : null;
+            const audioFile = audioInput ? audioInput.files[0] : null;
             
-            if (!postText && !file) {
-                showNotification('Please write something or add a photo!', 'error');
+            if (!postText && !photoFile && !videoFile && !audioFile) {
+                showNotification('Please write something or add photo/video/audio!', 'error');
                 return;
             }
             
-            const savePost = (imgUrl) => {
+            // Check file sizes
+            if (videoFile && videoFile.size > 50 * 1024 * 1024) {
+                showNotification('Video file is too large (max 50MB). Try a smaller file.', 'error');
+                return;
+            }
+            
+            if (audioFile && audioFile.size > 20 * 1024 * 1024) {
+                showNotification('Audio file is too large (max 20MB). Try a smaller file.', 'error');
+                return;
+            }
+            
+            const savePost = (mediaUrl, mediaType = 'image') => {
                 const newPost = {
                     id: Date.now(),
                     username: currentUser.name,
                     location: "Just Now",
                     time: "Just now",
                     profileImg: currentUser.profileImg,
-                    postImg: imgUrl || "",
+                    postImg: mediaUrl || "",
+                    mediaType: mediaType,
                     caption: postText,
                     hashtags: "",
                     likes: 0,
@@ -651,18 +687,77 @@ function initMainApp() {
                 saveDataToStorage();
                 renderPosts();
                 createPostInput.value = '';
-                if (fileInput) fileInput.value = '';
+                if (photoInput) photoInput.value = '';
+                if (videoInput) videoInput.value = '';
+                if (audioInput) audioInput.value = '';
                 showNotification('Post created successfully!');
             };
             
-            if (file) {
+            // Handle photo upload
+            if (photoFile) {
+                if (photoFile.size > 10 * 1024 * 1024) {
+                    showNotification('Photo is too large (max 10MB)', 'error');
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    savePost(e.target.result);
+                    savePost(e.target.result, 'image');
                 };
-                reader.readAsDataURL(file);
-            } else {
-                savePost("./img/feed_1.jpeg");
+                reader.onerror = () => {
+                    showNotification('Error uploading photo', 'error');
+                };
+                reader.readAsDataURL(photoFile);
+            }
+            // Handle video upload
+            else if (videoFile) {
+                const reader = new FileReader();
+                console.log('Video file selected:', { name: videoFile.name, size: videoFile.size, type: videoFile.type });
+                reader.onload = (e) => {
+                    console.log('Video loaded successfully');
+                    savePost(e.target.result, 'video');
+                };
+                reader.onerror = (error) => {
+                    console.error('Error reading video:', error);
+                    showNotification('Error uploading video. File may be too large.', 'error');
+                };
+                reader.readAsDataURL(videoFile);
+            }
+            // Handle audio upload
+            else if (audioFile) {
+                if (audioFile.size > 20 * 1024 * 1024) {
+                    showNotification('Audio file is too large (max 20MB)', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                console.log('Audio file selected:', { name: audioFile.name, size: audioFile.size, type: audioFile.type });
+                reader.onload = (e) => {
+                    try {
+                        console.log('Audio loaded successfully, size:', e.target.result.length);
+                        // Check if we're about to exceed storage limit
+                        const currentStorage = localStorage.getItem('instablogPosts') ? localStorage.getItem('instablogPosts').length : 0;
+                        const audioDataSize = e.target.result.length;
+                        console.log('Current storage:', currentStorage, 'Audio data size:', audioDataSize);
+                        
+                        if (currentStorage + audioDataSize > 9 * 1024 * 1024) {
+                            showNotification('Storage limit reached. Try a smaller audio file.', 'error');
+                            console.error('Storage limit would be exceeded');
+                            return;
+                        }
+                        savePost(e.target.result, 'audio');
+                    } catch (err) {
+                        console.error('Error processing audio:', err);
+                        showNotification('Error processing audio file', 'error');
+                    }
+                };
+                reader.onerror = (error) => {
+                    console.error('Error reading audio:', error);
+                    showNotification('Error uploading audio. File may be too large.', 'error');
+                };
+                reader.readAsDataURL(audioFile);
+            }
+            // Default fallback
+            else {
+                savePost("./img/feed_1.jpeg", 'image');
             }
         });
     }
@@ -682,6 +777,32 @@ function initMainApp() {
 
 /* ==================== POSTS FUNCTIONALITY ==================== */
 function createPostHTML(post) {
+    // Ensure mediaType is set (default to 'image' for backwards compatibility)
+    const mediaType = post.mediaType || 'image';
+    
+    // Render media based on type
+    let mediaHTML = '';
+    if (mediaType === 'video') {
+        mediaHTML = `<video width="100%" height="auto" controls style="border-radius: var(--card-border-radius); object-fit: cover; background: #000;">
+                        <source src="${post.postImg}" type="video/mp4">
+                        <source src="${post.postImg}" type="video/webm">
+                        <source src="${post.postImg}" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>`;
+    } else if (mediaType === 'audio') {
+        mediaHTML = `<div style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); border-radius: var(--card-border-radius); padding: 3rem 1rem; text-align: center;">
+                        <i class="uil uil-music" style="font-size: 3rem; color: white; margin-bottom: 1rem;"></i>
+                        <audio width="100%" controls style="margin-top: 1rem; width: 100%;">
+                            <source src="${post.postImg}" type="audio/mpeg">
+                            <source src="${post.postImg}" type="audio/ogg">
+                            <source src="${post.postImg}" type="audio/wav">
+                            Your browser does not support the audio tag.
+                        </audio>
+                    </div>`;
+    } else {
+        mediaHTML = `<img src="${post.postImg}" style="width: 100%; border-radius: var(--card-border-radius);">`;
+    }
+    
     return `
         <div class="feed" data-post-id="${post.id}">
             <div class="head">
@@ -700,7 +821,7 @@ function createPostHTML(post) {
             </div>
 
             <div class="photo">
-                <img src="${post.postImg}">
+                ${mediaHTML}
             </div>
 
             <div class="action-buttons">
